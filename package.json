@@ -117,6 +117,7 @@
     "ts:check": "tsc --noEmit && tsc -p tsconfig.examples.json --noEmit",
     "start": "tsx --tsconfig tsconfig.examples.json",
     "start:bee": "yarn start -- examples/agents/bee.ts",
+    "start:custom": "yarn start -- examples/agents/custom_agent_stepwise.ts",
     "docs:build": "embedme --source-root=. docs/**/*.md && cp *.md docs/ && yarn lint:fix docs/ && yarn prettier --write docs/",
     "docs:check": "yarn docs:build --verify",
     "docs:watch": "docsify serve ./docs --open",
