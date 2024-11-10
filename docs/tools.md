@@ -249,11 +249,11 @@ export class OpenLibraryTool extends Tool<OpenLibraryToolOutput, ToolOptions, To
     _options: ToolRunOptions | undefined,
     run: RunContext<this>,
   ) {
-    const response = await fetch(`https://openlibrary.org`, {
+    const query = createURLParams({
+      searchon: input,
+    });
+    const response = await fetch(`https://openlibrary.org?${query}`, {
       signal: run.signal,
-      body: createURLParams({
-        searchon: input,
-      }),
     });
 
     if (!response.ok) {
@@ -378,6 +378,10 @@ const tool = new DynamicTool({
 ```
 
 _Source: [examples/tools/custom/dynamic.ts](/examples/tools/custom/dynamic.ts)_
+
+The `name` of the tool is required and must only contain characters between
+a-z, A-Z, 0-9, or one of - or \_.
+The `inputSchema` and `description` are also both required.
 
 ### Using the `CustomTool` (Python functions)
 

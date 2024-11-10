@@ -14,11 +14,23 @@
  * limitations under the License.
  */
 
-import { NonUndefined } from "@/internals/types.js";
-import type { LinePrefixParser } from "@/agents/parsers/linePrefix.js";
-import type { BeeAgentRunner } from "@/agents/bee/runner.js";
+import dotenv from "dotenv";
+import { FrameworkError } from "@/errors.js";
+dotenv.config();
+dotenv.config({
+  path: ".env.test",
+  override: true,
+});
+dotenv.config({
+  path: ".env.test.local",
+  override: true,
+});
 
-type Parser = ReturnType<InstanceType<typeof BeeAgentRunner>["createParser"]>["parser"];
-export type BeeIterationResult = LinePrefixParser.inferOutput<Parser>;
-export type BeeIterationResultPartial = LinePrefixParser.inferPartialOutput<Parser>;
-export type BeeIterationToolResult = NonUndefined<BeeIterationResult, "tool_input" | "tool_name">;
+expect.addSnapshotSerializer({
+  serialize(val: FrameworkError): string {
+    return val.explain();
+  },
+  test(val): boolean {
+    return val && val instanceof FrameworkError;
+  },
+});
